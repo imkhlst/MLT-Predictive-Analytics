@@ -47,6 +47,11 @@ Berikut solusi yang harus dilakukan untuk mendapatkan jawaban dari pertanyaan di
 
 </div>
 
+Berikut langkah pada tahap data understanding.
+_ Pengumpulan data (*Data Gathering*) untuk mengumpulkan informasi dataset seperti jumlah baris dan kolom, tipe data dsb.
+- Pemeriksaan data (*Data Accessing*) untuk menemukan apakah terdapat informasi data yang hilang (*missing value*), duplikasi data (*duplicated data*) atau terdapat *outlier*.
+- Pembersihan data (*Data Cleaning*) untuk membersihkan data dari *missing value*, *duplicate data*, dan *outlier*. Pada tahap ini juga dilakukan encoding label untuk mengubah label data menjadi dalam bentuk data numerik agar dapat dikenali oleh model.
+
 ### Exploratory Data Analysis (EDA)
 
 **EDA - Deskripsi Variabel**
@@ -60,6 +65,15 @@ Berikut adalah variabel yang terdapat pada dataset *crop recommendation*.
 - `ph` --> nilai pH tanah
 - `rainfall` --> intensitas hujan dalam mm
 - `label` --> jenis tanaman yang cocok
+
+Pemeriksaan yang dilakukan menggunakan fungsi `isna.sum()` dan `duplicated.sum()` tidak menemukan informasi data yang hilang dan duplikasi data, namun terdapat *outlier* pada fitur Phosphorus, Potassium, Temperatur, Humidity, pH dan Rainfall menggunakan visualisasi data boxplot. *Outlier* dapat diatasi dengan melakukan *dropping* menggunakan metode IQR (*Interquartile Range*). IQR dapat dihitung dengan menggunakan rumus berikut.
+
+$$IQR = Q_3 - Q_1$$
+
+- Q1 adalah kuartil pertama 
+- Q3 adalah kuartil ketiga.
+
+Setelah dilakukan metode IQR, jumlah data yang awalnya berjumlah `2200` menjadi `1768`.
 
 **EDA - Univariate**
 
@@ -106,19 +120,10 @@ Gambar 3. Matriks Korelasi
 ## Data Preparation
 
 Berikut langkah pada tahap data preparation.
-- Pemeriksaan data (*Data Accessing*) untuk menemukan apakah terdapat informasi data yang hilang (*missing value*), duplikasi data (*duplicated data*) atau terdapat *outlier*.
-- Pembersihan data (*Data Cleaning*) untuk membersihkan data dari *missing value*, *duplicate data*, dan *outlier*. Pada tahap ini juga dilakukan encoding label untuk mengubah label data menjadi dalam bentuk data numerik agar dapat dikenali oleh model.
 - Pembagian data menjadi data latih dan data uji (*Train Test Split*).
 - Normalisasi data (*Normalization*) untuk mentransformasi data ke dalam skala yang seragam sehingga fitur memiliki rentang nilai yang sebanding).
 
-Pemeriksaan yang dilakukan tidak menemukan informasi data yang hilang dan duplikasi data, namun terdapat *outlier* pada fitur Phosphorus, Potassium, Temperatur, Humidity, pH dan Rainfall. Outlier dapat diatasi dengan melakukan *dropping* menggunakan metode IQR (*Interquartile Range*). IQR dapat dihitung dengan menggunakan rumus berikut.
-
-$$IQR = Q_3 - Q_1$$
-
-- Q1 adalah kuartil pertama 
-- Q3 adalah kuartil ketiga.
-
-Setelah dilakukan metode IQR, jumlah data yang awalnya berjumlah `2200` menjadi `1768`. pada langkah *train test split*, data dibagi dengan perbandingan antara data uji dan data latih sebesar `20:80` dengan *random state* sebesar `123`. Kemudian dilakukan Normalisasi menggunakan *library sklearn.processing.MinMaxScaler*.
+Pada langkah *train test split*, data dibagi dengan perbandingan antara data uji dan data latih sebesar `20:80` dengan *random state* sebesar `123`. Kemudian dilakukan Normalisasi menggunakan *library sklearn.processing.MinMaxScaler*.
 
 ## Modeling
 
@@ -154,7 +159,7 @@ Kekurangan
 
 ***Random Forest***
 
-*Random Forest* (RF) merupakan algoritma ensemble berbasis Decision Tree yang menggabungkan banyak pohon keputusan (*trees*)Setiap pohon dibangun menggunakan subset data yang berbeda, dan prediksi akhir dihasilkan dari rata-rata (regresi) atau voting (klasifikasi). Hyperparameter yang digunakan pada proyek ini yaitu `max_depth` yang berfungsi untuk mengatur kedalaman maksimum tiap pohon keputusan dalam *Random Forest*.
+*Random Forest* (RF) merupakan algoritma ensemble berbasis Decision Tree yang menggabungkan banyak pohon keputusan (*trees*)Setiap pohon dibangun menggunakan subset data yang berbeda, dan prediksi akhir dihasilkan dari rata-rata (regresi) atau voting (klasifikasi). Hyperparameter yang digunakan pada proyek ini yaitu `max_depth` sebesar 20 yang berfungsi untuk mengatur kedalaman maksimum tiap pohon keputusan dalam *Random Forest*.
 
 kelebihan
 - Robust terhadap overfitting.
@@ -170,8 +175,8 @@ Kekurangan
 
 *Gradient Boosting* (GB) merupakan metode ensemble yang membangun model secara bertahap dengan menambahkan pohon keputusan baru untuk mengurangi error residual dari model sebelumnya dimana tiap pohon berkontribusi untuk mengoreksi kesalahan model sebelumnya. Hyperparameter yang digunakan pada proyek ini, yaitu
 
-- `learning_rate` berfungsi untuk mengontrol besarnya langkah koreksi yang dilakukan oleh model baru (weak learner) terhadap kesalahan prediksi dari model sebelumnya.
-- `n_estimator` berfungsi untuk enentukan jumlah pohon keputusan (weak learners) yang akan dibangun dalam model Gradient Boosting.
+- `learning_rate` sebesar 0.001 yang berfungsi untuk mengontrol besarnya langkah koreksi yang dilakukan oleh model baru (weak learner) terhadap kesalahan prediksi dari model sebelumnya.
+- `n_estimator` sebesar 200 berfungsi untuk enentukan jumlah pohon keputusan (weak learners) yang akan dibangun dalam model Gradient Boosting.
 
 kelebihan
 - Kinerja tinggi: Sangat efektif untuk data terstruktur.
@@ -215,7 +220,7 @@ Gambar 4. Hasil Akurasi Model
 
 </div>
 
-Berdasarkan tabel 2 dan gambar 3 dapat dilihat bahwa nilai akurasi tertinggi dicapai dengan menggunakan algoritma *Random Forest* sebesar `100%`. Oleh karena itu, model yang dipilih adalah model dengan algoritma tersebut.
+Berdasarkan tabel 2 dan gambar 3 dapat dilihat bahwa nilai akurasi tertinggi dicapai dengan menggunakan algoritma *Random Forest* sebesar `100%`. Oleh karena itu, model yang dipilih adalah model dengan algoritma *random forest*. Hal ini menyelesaikan *prolem statement* dan memenuhi *goals* dari proyek ini. Selain tingkat akurasi, algoritma *random forest* dipilih dikarenakan robust terhadap overfitting, dapat bekerja dengan baik untuk dataset yang besar dan memiliki hubungan non-linear antar fitur. Berdasarkan hasil tersebut, diharapkan tingkat produktivitas agrikultur dibidang pertanian dapat meningkat dengan adanya proyek ini.
 
 ## Referensi
 [1] https://www.kemenkeu.go.id/informasi-publik/publikasi/berita-utama/Sektor-Pertanian-Fokus-Utama-Pemerintah
