@@ -48,7 +48,8 @@ Berikut solusi yang harus dilakukan untuk mendapatkan jawaban dari pertanyaan di
 </div>
 
 Berikut langkah pada tahap data understanding.
-_ Pengumpulan data (*Data Gathering*) untuk mengumpulkan informasi dataset seperti jumlah baris dan kolom, tipe data dsb.
+
+- Pengumpulan data (*Data Gathering*) untuk mengumpulkan informasi dataset seperti jumlah baris dan kolom, tipe data dsb.
 - Pemeriksaan data (*Data Accessing*) untuk menemukan apakah terdapat informasi data yang hilang (*missing value*), duplikasi data (*duplicated data*) atau terdapat *outlier*.
 - Pembersihan data (*Data Cleaning*) untuk membersihkan data dari *missing value*, *duplicate data*, dan *outlier*. Pada tahap ini juga dilakukan encoding label untuk mengubah label data menjadi dalam bentuk data numerik agar dapat dikenali oleh model.
 
