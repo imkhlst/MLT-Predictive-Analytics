@@ -67,14 +67,7 @@ Berikut adalah variabel yang terdapat pada dataset *crop recommendation*.
 - `rainfall` --> intensitas hujan dalam mm
 - `label` --> jenis tanaman yang cocok
 
-Pemeriksaan yang dilakukan menggunakan fungsi `isna.sum()` dan `duplicated.sum()` tidak menemukan informasi data yang hilang dan duplikasi data, namun terdapat *outlier* pada fitur Phosphorus, Potassium, Temperatur, Humidity, pH dan Rainfall menggunakan visualisasi data boxplot. *Outlier* dapat diatasi dengan melakukan *dropping* menggunakan metode IQR (*Interquartile Range*). IQR dapat dihitung dengan menggunakan rumus berikut.
-
-$$IQR = Q_3 - Q_1$$
-
-- Q1 adalah kuartil pertama 
-- Q3 adalah kuartil ketiga.
-
-Setelah dilakukan metode IQR, jumlah data yang awalnya berjumlah `2200` menjadi `1768`.
+Pemeriksaan yang dilakukan menggunakan fungsi `isna.sum()` dan `duplicated.sum()` pada tahap ini tidak menemukan informasi data yang hilang dan duplikasi data, namun terdapat *outlier* pada fitur Phosphorus, Potassium, Temperatur, Humidity, pH dan Rainfall menggunakan visualisasi data boxplot.
 
 **EDA - Univariate**
 
@@ -121,10 +114,18 @@ Gambar 3. Matriks Korelasi
 ## Data Preparation
 
 Berikut langkah pada tahap data preparation.
+- Pembersihan data (*Data Cleaning*).
 - Pembagian data menjadi data latih dan data uji (*Train Test Split*).
 - Normalisasi data (*Normalization*) untuk mentransformasi data ke dalam skala yang seragam sehingga fitur memiliki rentang nilai yang sebanding).
 
-Pada langkah *train test split*, data dibagi dengan perbandingan antara data uji dan data latih sebesar `20:80` dengan *random state* sebesar `123`. Kemudian dilakukan Normalisasi menggunakan *library sklearn.processing.MinMaxScaler*.
+*Outlier* yang ditemukan pada tahap *Data Understanding* dapat diatasi pada tahap ini dengan melakukan *dropping* menggunakan metode IQR (*Interquartile Range*). IQR dapat dihitung dengan menggunakan rumus berikut.
+
+$$IQR = Q_3 - Q_1$$
+
+- Q1 adalah kuartil pertama 
+- Q3 adalah kuartil ketiga.
+
+Setelah dilakukan metode IQR, jumlah data yang awalnya berjumlah `2200` menjadi `1768`. Pada tahap *Data Cleaning* ini juga dilakukan *labeling* menggunakan fungsi `labelEncoder()` yang mengubah data jenis tanaman menjadi label unik. Selanjutnya, Pada langkah *train test split*, data dibagi dengan perbandingan antara data uji dan data latih sebesar `20:80` dengan *random state* sebesar `123`. Kemudian dilakukan Normalisasi menggunakan *library sklearn.processing.MinMaxScaler*.
 
 ## Modeling
 
