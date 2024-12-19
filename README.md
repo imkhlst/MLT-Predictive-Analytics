@@ -51,7 +51,6 @@ Berikut langkah pada tahap data understanding.
 
 - Pengumpulan data (*Data Gathering*) untuk mengumpulkan informasi dataset seperti jumlah baris dan kolom, tipe data dsb.
 - Pemeriksaan data (*Data Accessing*) untuk menemukan apakah terdapat informasi data yang hilang (*missing value*), duplikasi data (*duplicated data*) atau terdapat *outlier*.
-- Pembersihan data (*Data Cleaning*) untuk membersihkan data dari *missing value*, *duplicate data*, dan *outlier*. Pada tahap ini juga dilakukan encoding label untuk mengubah label data menjadi dalam bentuk data numerik agar dapat dikenali oleh model.
 
 ### Exploratory Data Analysis (EDA)
 
@@ -114,18 +113,18 @@ Gambar 3. Matriks Korelasi
 ## Data Preparation
 
 Berikut langkah pada tahap data preparation.
-- Pembersihan data (*Data Cleaning*).
-- Pembagian data menjadi data latih dan data uji (*Train Test Split*).
-- Normalisasi data (*Normalization*) untuk mentransformasi data ke dalam skala yang seragam sehingga fitur memiliki rentang nilai yang sebanding).
+- Pembersihan data (*Data Cleaning*) untuk membersihkan data dari *missing value*, *duplicate data*, dan *outlier*. *Outlier* yang ditemukan dapat diatasi pada tahap ini dengan melakukan *dropping* menggunakan metode IQR (*Interquartile     Range*). IQR dapat dihitung dengan menggunakan rumus berikut.
 
-*Outlier* yang ditemukan pada tahap *Data Understanding* dapat diatasi pada tahap ini dengan melakukan *dropping* menggunakan metode IQR (*Interquartile Range*). IQR dapat dihitung dengan menggunakan rumus berikut.
+    $$IQR = Q_3 - Q_1$$
 
-$$IQR = Q_3 - Q_1$$
+    - Q1 adalah kuartil pertama 
+    - Q3 adalah kuartil ketiga.
 
-- Q1 adalah kuartil pertama 
-- Q3 adalah kuartil ketiga.
+    Setelah dilakukan metode IQR, jumlah data yang awalnya berjumlah `2200` menjadi `1768`.
 
-Setelah dilakukan metode IQR, jumlah data yang awalnya berjumlah `2200` menjadi `1768`. Pada tahap *Data Cleaning* ini juga dilakukan *labeling* menggunakan fungsi `labelEncoder()` yang mengubah data jenis tanaman menjadi label unik. Selanjutnya, Pada langkah *train test split*, data dibagi dengan perbandingan antara data uji dan data latih sebesar `20:80` dengan *random state* sebesar `123`. Kemudian dilakukan Normalisasi menggunakan *library sklearn.processing.MinMaxScaler*.
+- Encoding label. langkah ini dilakukan dengan menggunakan fungsi `labelEncoder()` yang mengubah data label tanaman menjadi label numerik agar dapat dikenali oleh model.
+- Pembagian data menjadi data latih dan data uji (*Train Test Split*). Pada langkah ini, data dibagi dengan perbandingan antara data uji dan data latih sebesar `20:80` dengan *random state* sebesar `123`.
+- Normalisasi data (*Normalization*) untuk mentransformasi data ke dalam skala yang seragam sehingga fitur memiliki rentang nilai yang sebanding. langkah ini dilakukan dengan menggunakan *library* `sklearn.processing.MinMaxScaler`.
 
 ## Modeling
 
